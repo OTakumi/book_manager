@@ -1,7 +1,12 @@
 use std::net::{Ipv4Addr, SocketAddr};
 
-use axum::{Router, routing::get};
+use axum::{Router, http::StatusCode, routing::get};
 use tokio::net::TcpListener;
+
+/// Health check handler
+async fn health_check() -> StatusCode {
+    StatusCode::OK
+}
 
 /// Hello world handler
 async fn hello_world() -> &'static str {
@@ -11,7 +16,9 @@ async fn hello_world() -> &'static str {
 #[tokio::main]
 async fn main() {
     // Router config
-    let app = Router::new().route("/hello", get(hello_world));
+    let app = Router::new()
+        .route("/hello", get(hello_world))
+        .route("/health", get(health_check));
 
     // Listen for requests on localhost:8080
     let addr = SocketAddr::new(Ipv4Addr::LOCALHOST.into(), 8080);
