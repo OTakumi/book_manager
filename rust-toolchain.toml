@@ -1,5 +1,5 @@
 [toolchain]
 channel = "1.92.0"
-components = ["rustc", "cargo", "rust-analyzer", "clippy"]
+components = ["rustc", "cargo", "rust-analyzer", "clippy", "cargo-make"]
 profile = "minimal"
 tagets = ["stable-x86_64-unknown-linux-gnu"]
