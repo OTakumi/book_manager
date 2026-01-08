@@ -2,23 +2,27 @@ name: Rust CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Install cargo-make
-      uses: davidB/rust-cargo-make@v1
-    - name: Build
-      run: cargo make build --verbose
-    - name: Run tests
-      run: cargo make test --verbose
+      - uses: actions/checkout@v4
+      - name: Install cargo-make
+        uses: davidB/rust-cargo-make@v1
+      - name: Install cargo-nextest
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: cargo-nextest
+          locked: true
+      - name: Build
+        run: cargo make build --verbose
+      - name: Run tests
+        run: cargo make test --verbose
