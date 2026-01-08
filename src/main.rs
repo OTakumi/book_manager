@@ -100,9 +100,18 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
+/// The health endpoint should always return a status code of 200
 #[tokio::test]
 async fn health_check_works() {
     let status_code = health_check().await;
+
+    assert_eq!(status_code, StatusCode::OK);
+}
+
+/// Return status code of 200 if access to the DB is successful
+#[sqlx::test]
+async fn haelth_check_db_works(pool: sqlx::PgPool) {
+    let status_code = health_check_db(State(pool)).await;
 
     assert_eq!(status_code, StatusCode::OK);
 }
