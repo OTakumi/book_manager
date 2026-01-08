@@ -18,7 +18,7 @@ dependencies = ["format", "clippy"]
 
 [tasks.test]
 command = "cargo"
-args = ["test"]
+args = ["nextest", "run"]
 dependencies = ["format", "clippy"]
 
 [tasks.run]
