@@ -40,6 +40,3 @@ impl AppConfig {
         Ok(Self { database })
     }
 }
-
-#[cfg(test)]
-mod tests {}
