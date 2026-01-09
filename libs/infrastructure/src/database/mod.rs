@@ -1,0 +1,25 @@
+use config::config::DatabaseConfig;
+use sqlx::{PgPool, postgres::PgConnectOptions};
+
+fn make_pg_connection_options(cfg: &DatabaseConfig) -> PgConnectOptions {
+    PgConnectOptions::new()
+        .host(&cfg.host)
+        .port(cfg.port)
+        .username(&cfg.username)
+        .password(&cfg.password)
+        .database(&cfg.database)
+}
+
+#[derive(Clone)]
+pub struct ConnectionPool(PgPool);
+
+impl ConnectionPool {
+    pub fn inner_ref(&self) -> &PgPool {
+        &self.0
+    }
+}
+
+/// Generate a database connection pool
+pub fn connect_database_with(cfg: &DatabaseConfig) -> ConnectionPool {
+    ConnectionPool(PgPool::connect_lazy_with(make_pg_connection_options(cfg)))
+}
