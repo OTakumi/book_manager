@@ -3,12 +3,33 @@ name = "book_manager"
 version = "0.1.0"
 edition = "2024"
 
-[dependencies]
+[[bin]]
+name = "app"
+path = "src/bin/app.rs"
+
+[workspace]
+members = ["libs/usecase", "libs/infrastructure", "libs/domain", "libs/config"]
+
+[workspace.dependencies]
+usecase = { path = "./libs/usecase" }
+infrastructure = { path = "./libs/infrastructure" }
+domain = { path = "./libs/domain" }
+config = { path = "./libs/config" }
+
 anyhow = "1.0.75"
 axum = { version="0.7.5", features = ["macros"] }
-dotenvy = "0.15.7"
-sqlx = { version = "0.7.3", features = ["runtime-tokio", "uuid", "chrono", "macros", "postgres", "migrate"] }
+sqlx = { version = "0.8", features = ["runtime-tokio", "uuid", "chrono", "macros", "postgres", "migrate"] }
 tokio = { version = "1", features = ["full"] }
-
-[dev-dependencies]
 rstest = "0.26.1"
+async-trait = "0.1"
+derive-new = "0.7"
+
+[dependencies]
+usecase.workspace = true
+infrastructure.workspace = true
+domain.workspace = true
+config.workspace = true
+
+anyhow.workspace = true
+axum.workspace = true
+tokio.workspace = true
